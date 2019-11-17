@@ -7,7 +7,7 @@ export default class App extends React.Component {
     super();
     this.state = 
     {
-      ToDoList: ["milk","bread"],
+      ToDoList: [],
       message:'',
       Priority:''
     };
@@ -22,14 +22,14 @@ export default class App extends React.Component {
     console.log(isOnTheList);
     
     if (isOnTheList == true){
-      this.prior.value = "0";
+      this.prior.value = "1";
       this.setState({
         message:'This item is already on the list.'
       });
       return false;
     }
     
-    const position= ToDoList.splice(Priority,0, newItem);
+    const position= ToDoList.splice(Priority-1,0, newItem);
       
     if (newItem !== '' ){
       this.setState({
@@ -45,7 +45,6 @@ export default class App extends React.Component {
     console.log(position);
     console.log(ToDoList);
     this.newItem.value = "";
-    this.prior.value = "0";
 }
 
 updatePriority(event){
@@ -55,7 +54,7 @@ updatePriority(event){
 clearList(event){
   this.setState({
     ToDoList: [],
-    message:"No list items, you should add some."
+    message:"No list items yet, you should add some."
   })
 }
 
@@ -78,43 +77,46 @@ console.log(newToDoList);
   render() {
     const {ToDoList,message,Priority} = this.state;
     return(
-    <div>
-      <input type="text" ref={input => this.newItem = input} placeholder="Item Description" />
+    <div className="top-left">
+      <form onSubmit={event => this.addItem(event)}>
+      <input className="margin" type="text" ref={input => this.newItem = input} placeholder="To Do Description" />
       <br/>
-      <input type="Number" defaultValue="0" ref={input => this.prior = input} onChange={this.updatePriority.bind(this)} min="1" max={ToDoList.length+1} placeholder="Priority Value"/>
+      <div className="inlign">
+      <select className="floatLeft" type="Number" defaultValue="1" ref={input => this.prior = input} onChange={this.updatePriority.bind(this)} min="1" max={ToDoList.length+1}>
+      {this.state.ToDoList.map(item => (
+          <option>{ToDoList.indexOf(item)+1}</option>
+          ))}
+          <option>{ToDoList.length+1}</option>
+      </select><p>Prioritize it's position on list.</p>
+      </div>
       <br/>
-      <button onClick={event => this.addItem(event)} >Add</button>
+      <button type="submit">Add</button>
+      </form>
       <br/>
       {
         (message !== '' || ToDoList.length === 0) && <p>{message}</p>
       } 
-      {ToDoList.length > 0 &&
+        <h4>To Do List</h4>
       <table>
-        <caption>To Do List</caption>
       <thead>
         <tr>
           <th>#</th>
-          <th>Item</th>
-          <th>Action</th>
+          <th>Description</th>
+          <th>Delete</th>
         </tr>
       </thead>
+      {ToDoList.length > 0 &&
       <tbody>
       {this.state.ToDoList.map(item => (
         <tr key={item}>
           <th>{ToDoList.indexOf(item)+1}</th>
           <td>{item}</td>
-          <td><button onClick={(event) => this.removeItem(item)}>X</button></td>
+          <tf><button onClick={(event) => this.removeItem(item)} type="button">X</button></tf>
         </tr>
         ))}
-       </tbody>
-       <tfoot>
-         <tr>
-           <td>
-             <button onClick={event => this.clearList(event)}>Clear List</button>
-           </td>
-         </tr>
-       </tfoot>
-      </table>}
+       </tbody>}
+      </table>
+      <button onClick={event => this.clearList(event)} type="button">Clear List</button>
       <br/> 
     </div> 
     );
