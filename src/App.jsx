@@ -1,5 +1,5 @@
 import React from 'react';
-
+import EditWindow from './EditWindow'
 
 export default class App extends React.Component {
   // your Javascript goes here
@@ -29,8 +29,15 @@ export default class App extends React.Component {
       return false;
     }
     
+    if (newItem == '' ){
+      this.setState({
+        message:'Cannot add empty item.'
+      });
+      return false;
+    }
+    
     const position= ToDoList.splice(Priority-1,0, newItem);
-      
+
     if (newItem !== '' ){
       this.setState({
         message:''
@@ -73,13 +80,14 @@ console.log(newToDoList);
     })
   }
 }
-
   render() {
     const {ToDoList,message,Priority} = this.state;
     return(
     <div className="top-left">
       <form onSubmit={event => this.addItem(event)}>
-      <input className="margin" type="text" ref={input => this.newItem = input} placeholder="To Do Description" />
+      <textarea type="text" ref={input => this.newItem = input} onKeyPress={event => {
+  if (event.key === 'Enter') this.addItem(event);
+}} placeholder="To Do Description" />
       <br/>
       <div className="inlign">
       <select className="floatLeft" type="Number" defaultValue="1" ref={input => this.prior = input} onChange={this.updatePriority.bind(this)} min="1" max={ToDoList.length+1}>
@@ -87,15 +95,14 @@ console.log(newToDoList);
           <option>{ToDoList.indexOf(item)+1}</option>
           ))}
           <option>{ToDoList.length+1}</option>
-      </select><p>Prioritize it's position on list.</p>
+      </select><p>Set it's priority on list.</p>
       </div>
       <br/>
-      <button type="submit">Add</button>
+      <div className="inlign">
+      <button type="submit">Add</button><caption> Enter key</caption>
+      </div>
       </form>
       <br/>
-      {
-        (message !== '' || ToDoList.length === 0) && <p>{message}</p>
-      } 
         <h4>To Do List</h4>
       <table>
       <thead>
@@ -105,16 +112,20 @@ console.log(newToDoList);
           <th>Delete</th>
         </tr>
       </thead>
-      {ToDoList.length > 0 &&
       <tbody>
+        <tr>
+          <th></th>
+          <th className="message">{message}</th>
+          <th></th>
+        </tr>
       {this.state.ToDoList.map(item => (
         <tr key={item}>
-          <th>{ToDoList.indexOf(item)+1}</th>
+          <td>{ToDoList.indexOf(item)+1}</td>
           <td>{item}</td>
-          <tf><button onClick={(event) => this.removeItem(item)} type="button">X</button></tf>
+          <td className="tf"><button onClick={(event) => this.removeItem(item)} type="button">X</button></td>
         </tr>
         ))}
-       </tbody>}
+       </tbody>
       </table>
       <button onClick={event => this.clearList(event)} type="button">Clear List</button>
       <br/> 
@@ -122,5 +133,3 @@ console.log(newToDoList);
     );
   }
 }
-
-
