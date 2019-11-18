@@ -8,11 +8,10 @@ body {
   background: #136a8a; /* fallback for old browsers */
   background: -webkit-linear-gradient(to left, #b3e6eb, #6281c9);
   background: linear-gradient(to left, #b3e6eb, #6281c9);
+  height:100%; 
   display: grid;
   grid-template-columns: 50% 50%;
   grid-template-rows: 50% 50%;
-  height:100%;
-  min-height: 100%;
 }
 
 .no-padding {
@@ -38,7 +37,7 @@ textarea {
 }
 
 strong + small {
-    display: block;
+  display: block;
 }
 
 input[type=checkbox] {
@@ -54,11 +53,11 @@ floatLeft {
 }
 
 button {
-background-color: azure;
+  background-color: azure;
 }
 
-table, td {  
-  border-bottom: 1px solid #ddd;
+td {  
+  border-top: 1px solid #ddd;
 }
 
 table {
@@ -66,7 +65,7 @@ table {
   width: 80%;
   background-color:white;
   margin:0px auto;
-  border-radius: 10px 10px 0px 0px;
+  border-radius: 10px 10px 10px 10px;
 }
 
 tr{
@@ -89,15 +88,11 @@ td:nth-child(2){
 
 .tf{
   text-align: center;
+  display:inline-flex;
 }
 
 .top-left{
   grid-column-start: 1;
-
-}
-
-div#root{
-  margin:auto 0px;
 }
 
 div.inlign{
@@ -115,4 +110,29 @@ h4{
 
 .message{
   color:red;
+}
+
+@keyframes leaves {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.grid2 {
+  grid-column: 2;
+}
+
+.hello{
+  animation-name: leaves;
+  animation-duration: 1s;
+}
+
+.EditBox{
+  height:80%;
+  width:80%;
+  background-color: white;
+  border-radius: 25px 25px 25px 25px;
 }
