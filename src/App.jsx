@@ -3,12 +3,15 @@ import UpdateItem from "./UpdateItem";
 
 export default class App extends React.Component {
   // your Javascript goes here
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.UpdateList = this.UpdateList.bind(this);
     this.state = {
       ToDoList: [],
       message: "",
-      Priority: ""
+      Priority: 1,
+      DisplayEditWindow:false,
+      Item: ""
     };
   }
 
@@ -18,10 +21,9 @@ export default class App extends React.Component {
     const { Priority } = this.state;
     const newItem = this.newItem.value;
     const isOnTheList = ToDoList.includes(newItem);
-    console.log(isOnTheList);
+    console.log(this.state.Priority);
 
     if (isOnTheList == true) {
-      this.prior.value = "1";
       this.setState({
         message: "This item is already on the list."
       });
@@ -51,6 +53,12 @@ export default class App extends React.Component {
     console.log(position);
     console.log(ToDoList);
     this.newItem.value = "";
+
+    var divided= ToDoList.length/3;
+    
+    var red = ToDoList.slice(0, divided);
+    var green = ToDoList.slice(divided+1, divided*2);
+    var yellow = ToDoList.slice(divided*2+1, divided*3);
   }
 
   updatePriority(event) {
@@ -65,28 +73,32 @@ export default class App extends React.Component {
   }
 
   removeItem(item) {
-    const newToDoList = this.state.ToDoList.filter(ToDoList => {
+    const ToDoList = this.state.ToDoList.filter(ToDoList => {
       return ToDoList !== item;
     });
-    console.log(newToDoList);
+    console.log(ToDoList);
     this.setState({
-      ToDoList: [...newToDoList]
+      ToDoList: [...ToDoList]
     });
 
-    if (newToDoList.length === 0) {
+    if (ToDoList.length === 0) {
       this.setState({
         message: "No items in the list."
       });
     }
   }
-  DisplayEditWindow(event) {
+
+  DisplayEditWindow(item) {
     this.setState({
-      DisplayEditWindow: !this.state.DisplayEditWindow
+      DisplayEditWindow: !this.state.DisplayEditWindow,
+      Item: item
     });
+
+    console.log("Item: ",this.state.Item);
 
     if (this.state.DisplayEditWindow) {
       this.setState({
-        EditWindow: <UpdateItem />
+        EditWindow: <UpdateItem ToDoList={this.state.ToDoList} Item={this.state.Item} ChangeList={this.UpdateList}/>,
       });
     } else {
       this.setState({
@@ -94,11 +106,27 @@ export default class App extends React.Component {
       });
     }
   }
+  
+  UpdateList(x,y) {
+    console.log("newlist",x);
+    console.log("toggle",y);
+    this.setState({
+      ToDoList: x,
+      EditWindow:""
+    });
+  }
 
   render() {
-    const { ToDoList, message, Priority } = this.state;
+    const { ToDoList, message } = this.state;
+    var divided= ToDoList.length/3;
+    
+    var red = ToDoList.slice(0, divided);
+    var green = ToDoList.slice(divided, divided*2);
+    var yellow = ToDoList.slice(divided*2, divided*3);
     return (
-      <div className="top-left">
+      <div className="grid">
+        <div>
+          <div className="List-Box">
         <form onSubmit={event => this.addItem(event)}>
           <textarea
             type="text"
@@ -108,7 +136,7 @@ export default class App extends React.Component {
             }}
             placeholder="To Do Description"
           />
-          <br />
+          <br/>
           <div className="inlign">
             <select
               className="floatLeft"
@@ -126,20 +154,21 @@ export default class App extends React.Component {
             </select>
             <p>Set it's priority on list.</p>
           </div>
-          <br />
+          <br/>
           <div className="inlign">
             <button type="submit">Add</button>
-            <caption> Enter key</caption>
+            <h3> Enter key</h3>
           </div>
         </form>
-        <br />
-        <h4>To Do List</h4>
-        <table>
+        </div>
+        <br/>
+        <h3>To Do List</h3>
+        <table >
           <thead>
             <tr>
               <th>#</th>
               <th>Description</th>
-              <th>Delete</th>
+              <th>Edit/Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -148,14 +177,54 @@ export default class App extends React.Component {
               <th className="message">{message}</th>
               <th></th>
             </tr>
-            {this.state.ToDoList.map(item => (
-              <tr key={item}>
+            {red.map(item => (
+              <tr key={item} className="red">
                 <td>{ToDoList.indexOf(item) + 1}</td>
                 <td>{item}</td>
                 <td className="tf">
                   <button
-                    onClick={event => this.DisplayEditWindow(item)}
                     type="button"
+                    onClick={event => this.DisplayEditWindow(item)}
+                  >
+                    ^
+                  </button>
+                  <button
+                    onClick={event => this.removeItem(item)}
+                    type="button"
+                  >
+                    X
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {green.map(item => (
+              <tr key={item} className="green">
+                <td>{ToDoList.indexOf(item) + 1}</td>
+                <td>{item}</td>
+                <td className="tf">
+                  <button
+                    type="button"
+                    onClick={event => this.DisplayEditWindow(item)}
+                  >
+                    ^
+                  </button>
+                  <button
+                    onClick={event => this.removeItem(item)}
+                    type="button"
+                  >
+                    X
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {yellow.map(item => (
+              <tr key={item} className="yellow">
+                <td>{ToDoList.indexOf(item) + 1}</td>
+                <td>{item}</td>
+                <td className="tf">
+                  <button
+                    type="button"
+                    onClick={event => this.DisplayEditWindow(item)}
                   >
                     ^
                   </button>
@@ -173,8 +242,22 @@ export default class App extends React.Component {
         <button onClick={event => this.clearList(event)} type="button">
           Clear List
         </button>
-        <br />
-        <div className="grid2">{this.state.EditWindow}</div>
+        </div>
+        <div >
+        {this.state.EditWindow}
+        </div>
+        <div>
+        </div>
+        <div className="Features">
+         <h3>Feautures</h3>
+         <ul className="Unordered">
+         <li>You have to hit the edit button twice just for the first time lol</li>
+         <li>By hitting the enter key you submit the form</li>
+         <li>You cannot add the same item twice</li>
+         <li>The priority index expands in a list format</li>
+         <li>Built using css grid</li>
+         </ul>
+        </div>
       </div>
     );
   }
