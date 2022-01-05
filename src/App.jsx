@@ -1,262 +1,250 @@
-import React from "react";
-import UpdateItem from "./UpdateItem";
+/* eslint-disable react/no-unescaped-entities */
+import React from 'react';
+import UpdateItem from './UpdateItem';
 
 export default class App extends React.Component {
   // your Javascript goes here
   constructor(props) {
     super(props);
-    this.UpdateList = this.UpdateList.bind(this);
+    this.updateList = this.updateList.bind(this);
     this.state = {
-      ToDoList: [],
-      message: "",
+      toDoList: [],
+      message: '',
       Priority: 1,
-      DisplayEditWindow:false,
-      Item: ""
+      displayEditWindow: false,
+      Item: '',
     };
   }
 
+  // eslint-disable-next-line consistent-return
   addItem(event) {
     event.preventDefault();
-    const { ToDoList } = this.state;
+    const { toDoList } = this.state;
     const { Priority } = this.state;
     const newItem = this.newItem.value;
-    const isOnTheList = ToDoList.includes(newItem);
-    console.log(this.state.Priority);
+    const isOnTheList = toDoList.includes(newItem);
 
-    if (isOnTheList == true) {
+    if (isOnTheList === true) {
       this.setState({
-        message: "This item is already on the list."
+        message: 'This item is already on the list.',
       });
       return false;
     }
 
-    if (newItem == "") {
+    if (newItem === '') {
       this.setState({
-        message: "Cannot add empty item."
+        message: 'Cannot add empty item.',
       });
       return false;
     }
 
-    const position = ToDoList.splice(Priority - 1, 0, newItem);
+    const position = toDoList.splice(Priority - 1, 0, newItem);
 
-    if (newItem !== "") {
+    if (newItem !== '') {
       this.setState({
-        message: ""
+        message: '',
       });
     } else {
-      newItem !== "" &&
-        this.setState({
-          ToDoList: position,
-          message: ""
-        });
+      this.setState({
+        toDoList: position,
+        message: '',
+      });
     }
-    console.log(position);
-    console.log(ToDoList);
-    this.newItem.value = "";
 
-    var divided= ToDoList.length/3;
-    
-    var red = ToDoList.slice(0, divided);
-    var green = ToDoList.slice(divided+1, divided*2);
-    var yellow = ToDoList.slice(divided*2+1, divided*3);
+    this.newItem.value = '';
+
+    // const divided = toDoList.length / 3;
+    // const red = toDoList.slice(0, divided);
+    // const green = toDoList.slice(divided + 1, divided * 2);
+    // const yellow = toDoList.slice(divided * 2 + 1, divided * 3);
   }
 
   updatePriority(event) {
     this.setState({ Priority: event.target.value });
   }
 
-  clearList(event) {
+  clearList() {
     this.setState({
-      ToDoList: [],
-      message: "No list items yet, you should add some."
+      toDoList: [],
+      message: 'No list items yet, you should add some.',
     });
   }
 
   removeItem(item) {
-    const ToDoList = this.state.ToDoList.filter(ToDoList => {
-      return ToDoList !== item;
-    });
-    console.log(ToDoList);
+    const toDoList = this.state.toDoList.filter(list => list !== item);
+
     this.setState({
-      ToDoList: [...ToDoList]
+      toDoList: [...toDoList],
     });
 
-    if (ToDoList.length === 0) {
+    if (toDoList.length === 0) {
       this.setState({
-        message: "No items in the list."
+        message: 'No items in the list.',
       });
     }
   }
 
-  DisplayEditWindow(item) {
+  displayEditWindow(item) {
     this.setState({
-      DisplayEditWindow: !this.state.DisplayEditWindow,
-      Item: item
+      displayEditWindow: !this.state.displayEditWindow,
+      Item: item,
     });
 
-    console.log("Item: ",this.state.Item);
-
-    if (this.state.DisplayEditWindow) {
+    if (this.state.displayEditWindow) {
       this.setState({
-        EditWindow: <UpdateItem ToDoList={this.state.ToDoList} Item={this.state.Item} ChangeList={this.UpdateList}/>,
+        // eslint-disable-next-line max-len
+        EditWindow: (
+          <UpdateItem
+            toDoList={ this.state.toDoList }
+            Item={ this.state.Item }
+            ChangeList={ this.updateList }
+          />
+        ),
       });
     } else {
       this.setState({
-        EditWindow: ""
+        EditWindow: '',
       });
     }
   }
-  
-  UpdateList(x,y) {
-    console.log("newlist",x);
-    console.log("toggle",y);
+
+  updateList(x) {
     this.setState({
-      ToDoList: x,
-      EditWindow:""
+      toDoList: x,
+      EditWindow: '',
     });
   }
 
   render() {
-    const { ToDoList, message } = this.state;
-    var divided= ToDoList.length/3;
-    
-    var red = ToDoList.slice(0, divided);
-    var green = ToDoList.slice(divided, divided*2);
-    var yellow = ToDoList.slice(divided*2, divided*3);
+    const { toDoList, message } = this.state;
+    const divided = toDoList.length / 3;
+    const red = toDoList.slice(0, divided);
+    const green = toDoList.slice(divided, divided * 2);
+    const yellow = toDoList.slice(divided * 2, divided * 3);
     return (
-      <div className="grid">
+      <div className='grid'>
         <div>
-          <div className="List-Box">
-        <form onSubmit={event => this.addItem(event)}>
-          <textarea
-            type="text"
-            ref={input => (this.newItem = input)}
-            onKeyPress={event => {
-              if (event.key === "Enter") this.addItem(event);
-            }}
-            placeholder="To Do Description"
-          />
-          <br/>
-          <div className="inlign">
-            <select
-              className="floatLeft"
-              type="Number"
-              defaultValue="1"
-              ref={input => (this.prior = input)}
-              onChange={this.updatePriority.bind(this)}
-              min="1"
-              max={ToDoList.length + 1}
-            >
-              {this.state.ToDoList.map(item => (
-                <option>{ToDoList.indexOf(item) + 1}</option>
+          <div className='List-Box'>
+            <form onSubmit={ event => this.addItem(event) }>
+              <textarea
+                type='text'
+                ref={ input => (this.newItem = input) }
+                onKeyPress={ (event) => {
+                  if (event.key === 'Enter') this.addItem(event);
+                } }
+                placeholder='To Do Description'
+              />
+              <br />
+              <div className='inlign'>
+                <select
+                  className='floatLeft'
+                  type='Number'
+                  defaultValue='1'
+                  ref={ input => (this.prior = input) }
+                  onChange={ this.updatePriority }
+                  min='1'
+                  max={ toDoList.length + 1 }
+                >
+                  {this.state.toDoList.map(item => (
+                    <option>{toDoList.indexOf(item) + 1}</option>
+                  ))}
+                  <option>{toDoList.length + 1}</option>
+                </select>
+                <p> Set it's priority on the list. </p>
+              </div>
+              <br />
+              <div className='inlign'>
+                <button type='submit'>Add</button>
+                <h3> Enter key</h3>
+              </div>
+            </form>
+          </div>
+          <br />
+          <h3>To Do List</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Description</th>
+                <th>Edit/Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th />
+                <th className='message'>{message}</th>
+                <th />
+              </tr>
+              {red.map(item => (
+                <tr key={ item } className='red'>
+                  <td>{toDoList.indexOf(item) + 1}</td>
+                  <td>{item}</td>
+                  <td className='tf'>
+                    <button
+                      type='button'
+                      onClick={ this.displayEditWindow(item) }
+                    >
+                      ^
+                    </button>
+                    <button onClick={ this.removeItem(item) } type='button'>
+                      X
+                    </button>
+                  </td>
+                </tr>
               ))}
-              <option>{ToDoList.length + 1}</option>
-            </select>
-            <p>Set it's priority on list.</p>
-          </div>
-          <br/>
-          <div className="inlign">
-            <button type="submit">Add</button>
-            <h3> Enter key</h3>
-          </div>
-        </form>
+              {green.map(item => (
+                <tr key={ item } className='green'>
+                  <td>{toDoList.indexOf(item) + 1}</td>
+                  <td>{item}</td>
+                  <td className='tf'>
+                    <button
+                      type='button'
+                      onClick={ this.displayEditWindow(item) }
+                    >
+                      ^
+                    </button>
+                    <button onClick={ this.removeItem(item) } type='button'>
+                      X
+                    </button>
+                  </td>
+                </tr>
+              ))}
+              {yellow.map(item => (
+                <tr key={ item } className='yellow'>
+                  <td>{toDoList.indexOf(item) + 1}</td>
+                  <td>{item}</td>
+                  <td className='tf'>
+                    <button
+                      type='button'
+                      onClick={ this.displayEditWindow(item) }
+                    >
+                      ^
+                    </button>
+                    <button onClick={ this.removeItem(item) } type='button'>
+                      X
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <button onClick={ event => this.clearList(event) } type='button'>
+            Clear List
+          </button>
         </div>
-        <br/>
-        <h3>To Do List</h3>
-        <table >
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Description</th>
-              <th>Edit/Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th></th>
-              <th className="message">{message}</th>
-              <th></th>
-            </tr>
-            {red.map(item => (
-              <tr key={item} className="red">
-                <td>{ToDoList.indexOf(item) + 1}</td>
-                <td>{item}</td>
-                <td className="tf">
-                  <button
-                    type="button"
-                    onClick={event => this.DisplayEditWindow(item)}
-                  >
-                    ^
-                  </button>
-                  <button
-                    onClick={event => this.removeItem(item)}
-                    type="button"
-                  >
-                    X
-                  </button>
-                </td>
-              </tr>
-            ))}
-            {green.map(item => (
-              <tr key={item} className="green">
-                <td>{ToDoList.indexOf(item) + 1}</td>
-                <td>{item}</td>
-                <td className="tf">
-                  <button
-                    type="button"
-                    onClick={event => this.DisplayEditWindow(item)}
-                  >
-                    ^
-                  </button>
-                  <button
-                    onClick={event => this.removeItem(item)}
-                    type="button"
-                  >
-                    X
-                  </button>
-                </td>
-              </tr>
-            ))}
-            {yellow.map(item => (
-              <tr key={item} className="yellow">
-                <td>{ToDoList.indexOf(item) + 1}</td>
-                <td>{item}</td>
-                <td className="tf">
-                  <button
-                    type="button"
-                    onClick={event => this.DisplayEditWindow(item)}
-                  >
-                    ^
-                  </button>
-                  <button
-                    onClick={event => this.removeItem(item)}
-                    type="button"
-                  >
-                    X
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <button onClick={event => this.clearList(event)} type="button">
-          Clear List
-        </button>
-        </div>
-        <div >
-        {this.state.EditWindow}
-        </div>
-        <div>
-        </div>
-        <div className="Features">
-         <h3>Feautures</h3>
-         <ul className="Unordered">
-         <li>You have to hit the edit button twice just for the first time lol</li>
-         <li>By hitting the enter key you submit the form</li>
-         <li>You cannot add the same item twice</li>
-         <li>The priority index expands in a list format</li>
-         <li>Built using css grid</li>
-         </ul>
+        <div>{this.state.EditWindow}</div>
+        <div />
+        <div className='Features'>
+          <h3>Feautures</h3>
+          <ul className='Unordered'>
+            <li>
+              You have to hit the edit button twice just for the first time lol
+            </li>
+            <li>By hitting the enter key you submit the form</li>
+            <li>You cannot add the same item twice</li>
+            <li>The priority index expands in a list format</li>
+            <li>Built using css grid</li>
+          </ul>
         </div>
       </div>
     );
