@@ -108,13 +108,6 @@ export default class App extends React.Component {
     }
   }
 
-  UpdateList(x) {
-    this.setState({
-      ToDoList: x,
-      EditWindow: ''
-    });
-  }
-
   updateList(x) {
     this.setState({
       toDoList: x,
