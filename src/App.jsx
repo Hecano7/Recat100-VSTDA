@@ -120,9 +120,9 @@ export default class App extends React.Component {
     const { ToDoList, message } = this.state;
     var divided= ToDoList.length/3;
     
-    var yellow = ToDoList.slice(divided*2, divided*3);
-    var green = ToDoList.slice(divided, divided*2);
     var red = ToDoList.slice(0, divided);
+    var green = ToDoList.slice(divided, divided*2);
+    var yellow = ToDoList.slice(divided*2, divided*3);
     return (
       <div className="grid">
         <div>

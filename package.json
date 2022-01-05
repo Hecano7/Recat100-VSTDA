@@ -25,6 +25,7 @@
     "nightmare-react-utils": "^1.0.4",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
+    "react-image": "^2.2.1",
     "serve-favicon": "^2.5.0",
     "webpack": "^3.12.0"
   },
