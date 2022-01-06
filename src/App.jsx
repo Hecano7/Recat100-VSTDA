@@ -16,7 +16,6 @@ export default class App extends React.Component {
     };
   }
 
-  // eslint-disable-next-line consistent-return
   addItem(event) {
     event.preventDefault();
     const { toDoList } = this.state;
@@ -42,17 +41,13 @@ export default class App extends React.Component {
 
     if (newItem !== '') {
       this.setState({
-        message: '',
-      });
-    } else {
-      this.setState({
         toDoList: position,
-        message: '',
+        message: ''
       });
     }
 
     this.newItem.value = '';
-
+    console.log(toDoList);
     // const divided = toDoList.length / 3;
     // const red = toDoList.slice(0, divided);
     // const green = toDoList.slice(divided + 1, divided * 2);
@@ -97,7 +92,7 @@ export default class App extends React.Component {
           <UpdateItem
             toDoList={ this.state.toDoList }
             Item={ this.state.Item }
-            ChangeList={ this.updateList }
+            changeList={ this.updateList }
           />
         ),
       });
@@ -121,6 +116,7 @@ export default class App extends React.Component {
     const red = toDoList.slice(0, divided);
     const green = toDoList.slice(divided, divided * 2);
     const yellow = toDoList.slice(divided * 2, divided * 3);
+    console.log('toDoList', toDoList);
     return (
       <div className='grid'>
         <div>
@@ -145,7 +141,7 @@ export default class App extends React.Component {
                   min='1'
                   max={ toDoList.length + 1 }
                 >
-                  {this.state.toDoList.map(item => (
+                  {toDoList.map(item => (
                     <option>{toDoList.indexOf(item) + 1}</option>
                   ))}
                   <option>{toDoList.length + 1}</option>
@@ -237,9 +233,7 @@ export default class App extends React.Component {
         <div className='Features'>
           <h3>Feautures</h3>
           <ul className='Unordered'>
-            <li>
-              You have to hit the edit button twice just for the first time lol
-            </li>
+            <li>You have to hit the edit button twice just for the first time lol</li>
             <li>By hitting the enter key you submit the form</li>
             <li>You cannot add the same item twice</li>
             <li>The priority index expands in a list format</li>
