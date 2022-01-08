@@ -10,12 +10,7 @@ body {
   background: -webkit-linear-gradient(to left, #b3e6eb, #6281c9);
   background: linear-gradient(to left, #b3e6eb, #6281c9);
 }
-.grid{
-  height:100%; 
-  display: grid;
-  grid-template-columns: 50% 50%;
-  grid-template-rows: 50% 50%;
-}
+
 
 div#root {
   height: 100%;
@@ -69,7 +64,7 @@ div.pull-right a {
   margin-left: 1em;
 }
 
-floatLeft {
+.floatLeft {
   float:left;
 }
 
@@ -80,18 +75,19 @@ button {
 table {
   border-collapse: collapse;
   width: 80%;
-  background-color:white;
   margin:0px auto;
   border-radius: 10px 10px 10px 10px;
 }
 
 tr{
   height:25px;
+  background-color:white;
 }
 
 th {
   width: 10%;
   text-align: center;
+  background-color:white;
 }
 
 th:nth-child(2){
@@ -140,24 +136,16 @@ h4{
 
 .EditBox{
   background-color: white;
-  border-radius: 25px 25px 25px 25px;
-  display: grid;
-  grid-template-rows: 20% 60% 20%;
   height:100%;
-  width:80%;
-  margin: 30px auto 0px auto;
+  width:100%;
+  margin: 0px auto 0px auto;
   margin-right: auto;
   margin-left: auto;
-  animation-name: leaves;
-  animation-duration: .5s;
 }
 
 div#row-1{
 grid-row: 1;
 margin:auto;
-border-bottom: 1px solid #ddd;
-height: 100%;
-width: 100%;
 }
 
 label{
@@ -167,6 +155,8 @@ label{
 
 div#row-2{
 grid-row: 2;
+margin-top: 10px;
+margin-bottom: 10px;
 }
 
 #text-box-2{
@@ -177,6 +167,8 @@ width:80%;
 div#row-3{
 grid-row: 3;
 margin:auto;
+margin-top: 10px;
+margin-bottom: 15px;
 }
 
 select{
@@ -198,7 +190,10 @@ background-color:#7CFC00;
 }
 
 .gridEditBox{
-  height:100%
+  height:100%;
+  width:100%;
+  animation-name: leaves;
+  animation-duration: .5s;
   }
 
   .Features{

@@ -66,7 +66,7 @@ export default class App extends React.Component {
   }
 
   removeItem(item) {
-    const toDoList = this.state.toDoList.filter(list => list !== item);
+    const toDoList = this.state.toDoList.filter((list) => list !== item);
 
     this.setState({
       toDoList: [...toDoList],
@@ -91,43 +91,26 @@ export default class App extends React.Component {
       displayEditWindow: !this.state.displayEditWindow,
       Item: item,
     });
-
-    if (this.state.displayEditWindow) {
-      this.setState({
-        // eslint-disable-next-line max-len
-        EditWindow: (
-          <UpdateItem
-            toDoList={ this.state.toDoList }
-            Item={ this.state.Item }
-            changeList={ this.updateList }
-          />
-        ),
-      });
-    } else {
-      this.setState({
-        EditWindow: '',
-      });
-    }
   }
 
   render() {
-    const { toDoList, message } = this.state;
+    const { toDoList, message, displayEditWindow, Item } = this.state;
+    const updateList = this.updateList;
     const divided = toDoList.length / 3;
     const red = toDoList.slice(0, divided);
     const green = toDoList.slice(divided, divided * 2);
     const yellow = toDoList.slice(divided * 2, divided * 3);
-
     return (
       <div className='grid'>
         <div>
           <div className='List-Box'>
-            <form onSubmit={ event => this.addItem(event) }>
+            <form onSubmit={(event) => this.addItem(event)}>
               <textarea
                 type='text'
-                ref={ input => (this.newItem = input) }
-                onKeyPress={ (event) => {
+                ref={(input) => (this.newItem = input)}
+                onKeyPress={(event) => {
                   if (event.key === 'Enter') this.addItem(event);
-                } }
+                }}
                 placeholder='To Do Description'
               />
               <br />
@@ -136,13 +119,13 @@ export default class App extends React.Component {
                   className='floatLeft'
                   type='Number'
                   defaultValue='1'
-                  ref={ input => (this.prior = input) }
-                  onChange={ event => this.updatePriority(event) }
+                  ref={(input) => (this.prior = input)}
+                  onChange={(event) => this.updatePriority(event)}
                   min='1'
-                  max={ toDoList.length + 1 }
+                  max={toDoList.length + 1}
                 >
-                  {toDoList.map(item => (
-                    <option>{toDoList.indexOf(item) + 1}</option>
+                  {toDoList.map((item) => (
+                    <option key={item}>{toDoList.indexOf(item) + 1}</option>
                   ))}
                   <option>{toDoList.length + 1}</option>
                 </select>
@@ -171,70 +154,111 @@ export default class App extends React.Component {
                 <th className='message'>{message}</th>
                 <th />
               </tr>
-              <div>{this.state.EditWindow}</div>
-              {red.map(item => (
+            </tbody>
+            {red.map((item) => (
+              <tbody colSpan='3' key={item + 'b'}>
+                {displayEditWindow == true && Item == item ? (
+                  <tr colSpan='3' key={item + 's'} style={ { backgroundColor:'transparent' } }>
+                    <UpdateItem
+                    key={item + 'u'}
+                      toDoList={ toDoList }
+                      Item={ Item }
+                      changeList={ updateList }
+                    />
+                  </tr>
+                ) : (
+                  ''
+                )}
                 <tr key={ item } className='red'>
                   <td>{toDoList.indexOf(item) + 1}</td>
                   <td>{item}</td>
                   <td className='tf'>
                     <button
                       type='button'
-                      onClick={ event => this.displayEditWindow(item) }
+                      onClick={(event) => this.displayEditWindow(item)}
                     >
                       ^
                     </button>
                     <button
-                      onClick={ event => this.removeItem(item) }
+                      onClick={(event) => this.removeItem(item)}
                       type='button'
                     >
                       X
                     </button>
                   </td>
                 </tr>
-              ))}
-              {green.map(item => (
-                <tr key={ item } className='green'>
+              </tbody>
+            ))}
+            {green.map((item) => (
+              <tbody colSpan='3' key={item + 'b'}>
+                {displayEditWindow == true && Item == item ? (
+                  <tr colSpan='3' key={item + 's'} style={{backgroundColor:'transparent'}}>
+                    <UpdateItem
+                      key={item + 'u'}
+                      toDoList={ toDoList }
+                      Item={ Item }
+                      changeList={ updateList }
+                    />
+                  </tr>
+                ) : (
+                  ''
+                )}
+                <tr key={item} className='green'>
                   <td>{toDoList.indexOf(item) + 1}</td>
                   <td>{item}</td>
                   <td className='tf'>
                     <button
                       type='button'
-                      onClick={ event => this.displayEditWindow(item) }
+                      onClick={(event) => this.displayEditWindow(item)}
                     >
                       ^
                     </button>
                     <button
-                      onClick={ event => this.removeItem(item) }
+                      onClick={(event) => this.removeItem(item)}
                       type='button'
                     >
                       X
                     </button>
                   </td>
                 </tr>
-              ))}
-              {yellow.map(item => (
-                <tr key={ item } className='yellow'>
+              </tbody>
+            ))}
+            {yellow.map((item) => (
+              <tbody colSpan='3' key={item + 'b'}>
+                {displayEditWindow == true && Item == item ? (
+                  <tr colSpan='3' key={item + 's'}  style={{backgroundColor:'transparent'}}>
+                    <UpdateItem
+                      key={item + 'u'}
+                      toDoList={ toDoList }
+                      Item={ Item }
+                      changeList={ updateList }
+                    />
+                  </tr>
+                ) : (
+                  ''
+                )}
+                <tr key={item} className='yellow'>
                   <td>{toDoList.indexOf(item) + 1}</td>
                   <td>{item}</td>
                   <td className='tf'>
                     <button
                       type='button'
-                      onClick={ event => this.displayEditWindow(item) }
+                      onClick={(event) => this.displayEditWindow(item)}
                     >
                       ^
                     </button>
                     <button
-                      onClick={ event => this.removeItem(item) }
+                      onClick={(event) => this.removeItem(item)}
                       type='button'
                     >
                       X
                     </button>
                   </td>
                 </tr>
-              ))}
-            </tbody>
+              </tbody>
+            ))}
           </table>
-          <button onClick={ event => this.clearList(event) } type='button'>
+          <button onClick={(event) => this.clearList(event)} type='button'>
             Clear List
           </button>
         </div>

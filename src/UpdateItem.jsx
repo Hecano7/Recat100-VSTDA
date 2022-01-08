@@ -49,10 +49,10 @@ export default class UpdateItem extends React.Component {
   render() {
     const { message } = this.state;
     const { toDoList, Item } = this.props;
-    const index = toDoList.indexOf(Item) + 1;
-    console.log(toDoList);
+    const index = toDoList.indexOf(1) + 1;
+    console.log('UpdateItem', toDoList.indexOf(Item));
     return (
-      <div className="gridEditBox">
+      <td colSpan='3' className="gridEditBox">
         <form className="EditBox" onSubmit={(event) => this.updateList(event)}>
           <div id="row-1">
             <label>Edit List Item # {index}</label>
@@ -67,7 +67,7 @@ export default class UpdateItem extends React.Component {
                 if (event.key === "Enter") this.updateList(event);
               }}
             >
-              {Item.value}
+              {Item}
             </textarea>
           </div>
           <div id="row-3">
@@ -77,7 +77,7 @@ export default class UpdateItem extends React.Component {
               onChange={this.updatePriority2}
             >
               {toDoList.map((item) => (
-                <option>{toDoList.indexOf(item) + 1}</option>
+                <option key={ item }>{toDoList.indexOf(item) + 1}</option>
               ))}
               <option>{toDoList.length + 1}</option>
             </select>
@@ -86,7 +86,7 @@ export default class UpdateItem extends React.Component {
             </button>
           </div>
         </form>
-      </div>
+      </td>
     );
   }
 }
