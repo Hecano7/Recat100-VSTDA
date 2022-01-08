@@ -50,6 +50,7 @@ export default class UpdateItem extends React.Component {
     const { message } = this.state;
     const { toDoList, Item } = this.props;
     const index = toDoList.indexOf(Item) + 1;
+    console.log(toDoList);
     return (
       <div className="gridEditBox">
         <form className="EditBox" onSubmit={(event) => this.updateList(event)}>
@@ -66,7 +67,7 @@ export default class UpdateItem extends React.Component {
                 if (event.key === "Enter") this.updateList(event);
               }}
             >
-              {Item}
+              {Item.value}
             </textarea>
           </div>
           <div id="row-3">

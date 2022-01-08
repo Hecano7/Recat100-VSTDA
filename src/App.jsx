@@ -18,36 +18,34 @@ export default class App extends React.Component {
 
   addItem(event) {
     event.preventDefault();
-    const { toDoList } = this.state;
+    const list = [...this.state.toDoList];
     const { Priority } = this.state;
     const newItem = this.newItem.value;
-    const isOnTheList = toDoList.includes(newItem);
+    const isOnTheList = list.includes(newItem);
 
     if (isOnTheList === true) {
+      this.prior.value = '1';
       this.setState({
         message: 'This item is already on the list.',
       });
       return false;
     }
 
-    if (newItem === '') {
+    list.splice(Priority - 1, 0, newItem);
+
+    if (newItem !== '') {
+      this.setState({
+        toDoList: list,
+        message: '',
+      });
+    } else {
       this.setState({
         message: 'Cannot add empty item.',
       });
       return false;
     }
 
-    const position = toDoList.splice(Priority - 1, 0, newItem);
-
-    if (newItem !== '') {
-      this.setState({
-        toDoList: position,
-        message: ''
-      });
-    }
-
     this.newItem.value = '';
-    console.log(toDoList);
     // const divided = toDoList.length / 3;
     // const red = toDoList.slice(0, divided);
     // const green = toDoList.slice(divided + 1, divided * 2);
@@ -55,7 +53,9 @@ export default class App extends React.Component {
   }
 
   updatePriority(event) {
-    this.setState({ Priority: event.target.value });
+    this.setState({
+      Priority: event.target.value,
+    });
   }
 
   clearList() {
@@ -77,6 +77,13 @@ export default class App extends React.Component {
         message: 'No items in the list.',
       });
     }
+  }
+
+  updateList(x) {
+    this.setState({
+      toDoList: x,
+      EditWindow: '',
+    });
   }
 
   displayEditWindow(item) {
@@ -103,20 +110,13 @@ export default class App extends React.Component {
     }
   }
 
-  updateList(x) {
-    this.setState({
-      toDoList: x,
-      EditWindow: '',
-    });
-  }
-
   render() {
     const { toDoList, message } = this.state;
     const divided = toDoList.length / 3;
     const red = toDoList.slice(0, divided);
     const green = toDoList.slice(divided, divided * 2);
     const yellow = toDoList.slice(divided * 2, divided * 3);
-    console.log('toDoList', toDoList);
+
     return (
       <div className='grid'>
         <div>
@@ -137,7 +137,7 @@ export default class App extends React.Component {
                   type='Number'
                   defaultValue='1'
                   ref={ input => (this.prior = input) }
-                  onChange={ this.updatePriority }
+                  onChange={ event => this.updatePriority(event) }
                   min='1'
                   max={ toDoList.length + 1 }
                 >
@@ -171,6 +171,7 @@ export default class App extends React.Component {
                 <th className='message'>{message}</th>
                 <th />
               </tr>
+              <div>{this.state.EditWindow}</div>
               {red.map(item => (
                 <tr key={ item } className='red'>
                   <td>{toDoList.indexOf(item) + 1}</td>
@@ -178,11 +179,14 @@ export default class App extends React.Component {
                   <td className='tf'>
                     <button
                       type='button'
-                      onClick={ this.displayEditWindow(item) }
+                      onClick={ event => this.displayEditWindow(item) }
                     >
                       ^
                     </button>
-                    <button onClick={ this.removeItem(item) } type='button'>
+                    <button
+                      onClick={ event => this.removeItem(item) }
+                      type='button'
+                    >
                       X
                     </button>
                   </td>
@@ -195,11 +199,14 @@ export default class App extends React.Component {
                   <td className='tf'>
                     <button
                       type='button'
-                      onClick={ this.displayEditWindow(item) }
+                      onClick={ event => this.displayEditWindow(item) }
                     >
                       ^
                     </button>
-                    <button onClick={ this.removeItem(item) } type='button'>
+                    <button
+                      onClick={ event => this.removeItem(item) }
+                      type='button'
+                    >
                       X
                     </button>
                   </td>
@@ -212,11 +219,14 @@ export default class App extends React.Component {
                   <td className='tf'>
                     <button
                       type='button'
-                      onClick={ this.displayEditWindow(item) }
+                      onClick={ event => this.displayEditWindow(item) }
                     >
                       ^
                     </button>
-                    <button onClick={ this.removeItem(item) } type='button'>
+                    <button
+                      onClick={ event => this.removeItem(item) }
+                      type='button'
+                    >
                       X
                     </button>
                   </td>
@@ -228,12 +238,13 @@ export default class App extends React.Component {
             Clear List
           </button>
         </div>
-        <div>{this.state.EditWindow}</div>
         <div />
         <div className='Features'>
           <h3>Feautures</h3>
           <ul className='Unordered'>
-            <li>You have to hit the edit button twice just for the first time lol</li>
+            <li>
+              You have to hit the edit button twice just for the first time lol
+            </li>
             <li>By hitting the enter key you submit the form</li>
             <li>You cannot add the same item twice</li>
             <li>The priority index expands in a list format</li>
