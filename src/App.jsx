@@ -66,7 +66,7 @@ export default class App extends React.Component {
   }
 
   removeItem(item) {
-    const toDoList = this.state.toDoList.filter((list) => list !== item);
+    const toDoList = this.state.toDoList.filter(list => list !== item);
 
     this.setState({
       toDoList: [...toDoList],
@@ -95,7 +95,7 @@ export default class App extends React.Component {
 
   render() {
     const { toDoList, message, displayEditWindow, Item } = this.state;
-    const updateList = this.updateList;
+    const updateList = this.updateList();
     const divided = toDoList.length / 3;
     const red = toDoList.slice(0, divided);
     const green = toDoList.slice(divided, divided * 2);
@@ -104,13 +104,13 @@ export default class App extends React.Component {
       <div className='grid'>
         <div>
           <div className='List-Box'>
-            <form onSubmit={(event) => this.addItem(event)}>
+            <form onSubmit={ event => this.addItem(event) }>
               <textarea
                 type='text'
-                ref={(input) => (this.newItem = input)}
-                onKeyPress={(event) => {
+                ref={ input => (this.newItem = input) }
+                onKeyPress={ (event) => {
                   if (event.key === 'Enter') this.addItem(event);
-                }}
+                } }
                 placeholder='To Do Description'
               />
               <br />
@@ -119,13 +119,13 @@ export default class App extends React.Component {
                   className='floatLeft'
                   type='Number'
                   defaultValue='1'
-                  ref={(input) => (this.prior = input)}
-                  onChange={(event) => this.updatePriority(event)}
+                  ref={ input => (this.prior = input) }
+                  onChange={ event => this.updatePriority(event) }
                   min='1'
-                  max={toDoList.length + 1}
+                  max={ toDoList.length + 1 }
                 >
-                  {toDoList.map((item) => (
-                    <option key={item}>{toDoList.indexOf(item) + 1}</option>
+                  {toDoList.map(item => (
+                    <option key={ item }>{toDoList.indexOf(item) + 1}</option>
                   ))}
                   <option>{toDoList.length + 1}</option>
                 </select>
@@ -155,12 +155,12 @@ export default class App extends React.Component {
                 <th />
               </tr>
             </tbody>
-            {red.map((item) => (
-              <tbody colSpan='3' key={item + 'b'}>
-                {displayEditWindow == true && Item == item ? (
-                  <tr colSpan='3' key={item + 's'} style={ { backgroundColor:'transparent' } }>
+            {red.map(item => (
+              <tbody colSpan='3' key={ `${item}b` }>
+                {displayEditWindow === true && Item === item ? (
+                  <tr colSpan='3' key={ `${item}s` } style={ { backgroundColor: 'transparent' } }>
                     <UpdateItem
-                    key={item + 'u'}
+                      key={ `${item}u` }
                       toDoList={ toDoList }
                       Item={ Item }
                       changeList={ updateList }
@@ -175,12 +175,12 @@ export default class App extends React.Component {
                   <td className='tf'>
                     <button
                       type='button'
-                      onClick={(event) => this.displayEditWindow(item)}
+                      onClick={ () => this.displayEditWindow(item) }
                     >
                       ^
                     </button>
                     <button
-                      onClick={(event) => this.removeItem(item)}
+                      onClick={ () => this.removeItem(item) }
                       type='button'
                     >
                       X
@@ -189,12 +189,12 @@ export default class App extends React.Component {
                 </tr>
               </tbody>
             ))}
-            {green.map((item) => (
-              <tbody colSpan='3' key={item + 'b'}>
-                {displayEditWindow == true && Item == item ? (
-                  <tr colSpan='3' key={item + 's'} style={{backgroundColor:'transparent'}}>
+            {green.map( item => (
+              <tbody colSpan='3' key={ `${item}b` }>
+                {displayEditWindow === true && Item === item ? (
+                  <tr colSpan='3' key={ `${item}s` } style={ { backgroundColor: 'transparent' } }>
                     <UpdateItem
-                      key={item + 'u'}
+                      key={ `${item}u` }
                       toDoList={ toDoList }
                       Item={ Item }
                       changeList={ updateList }
@@ -203,18 +203,18 @@ export default class App extends React.Component {
                 ) : (
                   ''
                 )}
-                <tr key={item} className='green'>
+                <tr key={ item } className='green'>
                   <td>{toDoList.indexOf(item) + 1}</td>
                   <td>{item}</td>
                   <td className='tf'>
                     <button
                       type='button'
-                      onClick={(event) => this.displayEditWindow(item)}
+                      onClick={ () => this.displayEditWindow(item) }
                     >
                       ^
                     </button>
                     <button
-                      onClick={(event) => this.removeItem(item)}
+                      onClick={ () => this.removeItem(item) }
                       type='button'
                     >
                       X
@@ -223,12 +223,12 @@ export default class App extends React.Component {
                 </tr>
               </tbody>
             ))}
-            {yellow.map((item) => (
-              <tbody colSpan='3' key={item + 'b'}>
-                {displayEditWindow == true && Item == item ? (
-                  <tr colSpan='3' key={item + 's'}  style={{backgroundColor:'transparent'}}>
+            {yellow.map(item => (
+              <tbody colSpan='3' key={ `${item}b` }>
+                {displayEditWindow === true && Item === item ? (
+                  <tr colSpan='3' key={ `${item}s` } style={ { backgroundColor: 'transparent' } }>
                     <UpdateItem
-                      key={item + 'u'}
+                      key={ `${item}u` }
                       toDoList={ toDoList }
                       Item={ Item }
                       changeList={ updateList }
@@ -237,18 +237,18 @@ export default class App extends React.Component {
                 ) : (
                   ''
                 )}
-                <tr key={item} className='yellow'>
+                <tr key={ item } className='yellow'>
                   <td>{toDoList.indexOf(item) + 1}</td>
                   <td>{item}</td>
                   <td className='tf'>
                     <button
                       type='button'
-                      onClick={(event) => this.displayEditWindow(item)}
+                      onClick={ () => this.displayEditWindow(item) }
                     >
                       ^
                     </button>
                     <button
-                      onClick={(event) => this.removeItem(item)}
+                      onClick={ () => this.removeItem(item) }
                       type='button'
                     >
                       X
@@ -258,7 +258,7 @@ export default class App extends React.Component {
               </tbody>
             ))}
           </table>
-          <button onClick={(event) => this.clearList(event)} type='button'>
+          <button onClick={ event => this.clearList(event) } type='button'>
             Clear List
           </button>
         </div>
