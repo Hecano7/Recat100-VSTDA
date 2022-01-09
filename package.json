@@ -58,7 +58,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sandiegocodeschool/react100-vstda.git"
+    "url": "git+https://github.com/sandiegocodeschool/react100-vstda.git"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sandiegocodeschool/react100-vstda/issues"
+  },
+  "homepage": "https://github.com/sandiegocodeschool/react100-vstda#readme",
+  "directories": {
+    "test": "test"
+  },
+  "author": ""
 }

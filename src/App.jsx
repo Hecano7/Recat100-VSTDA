@@ -95,7 +95,6 @@ export default class App extends React.Component {
 
   render() {
     const { toDoList, message, displayEditWindow, Item } = this.state;
-    const updateList = this.updateList();
     const divided = toDoList.length / 3;
     const red = toDoList.slice(0, divided);
     const green = toDoList.slice(divided, divided * 2);
@@ -163,7 +162,7 @@ export default class App extends React.Component {
                       key={ `${item}u` }
                       toDoList={ toDoList }
                       Item={ Item }
-                      changeList={ updateList }
+                      changeList={ this.updateList }
                     />
                   </tr>
                 ) : (
@@ -189,7 +188,7 @@ export default class App extends React.Component {
                 </tr>
               </tbody>
             ))}
-            {green.map( item => (
+            {green.map(item => (
               <tbody colSpan='3' key={ `${item}b` }>
                 {displayEditWindow === true && Item === item ? (
                   <tr colSpan='3' key={ `${item}s` } style={ { backgroundColor: 'transparent' } }>
@@ -197,7 +196,7 @@ export default class App extends React.Component {
                       key={ `${item}u` }
                       toDoList={ toDoList }
                       Item={ Item }
-                      changeList={ updateList }
+                      changeList={ this.updateList }
                     />
                   </tr>
                 ) : (
@@ -231,7 +230,7 @@ export default class App extends React.Component {
                       key={ `${item}u` }
                       toDoList={ toDoList }
                       Item={ Item }
-                      changeList={ updateList }
+                      changeList={ this.updateList }
                     />
                   </tr>
                 ) : (
