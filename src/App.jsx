@@ -82,7 +82,7 @@ export default class App extends React.Component {
   updateList(x) {
     this.setState({
       toDoList: x,
-      EditWindow: '',
+      displayEditWindow: !this.state.displayEditWindow
     });
   }
 
@@ -100,8 +100,7 @@ export default class App extends React.Component {
     const green = toDoList.slice(divided, divided * 2);
     const yellow = toDoList.slice(divided * 2, divided * 3);
     return (
-      <div className='grid'>
-        <div>
+        <div className='grid'>
           <div className='List-Box'>
             <form onSubmit={ event => this.addItem(event) }>
               <textarea
@@ -121,12 +120,12 @@ export default class App extends React.Component {
                   ref={ input => (this.prior = input) }
                   onChange={ event => this.updatePriority(event) }
                   min='1'
-                  max={ toDoList.length + 1 }
+                  max={ toDoList.length }
                 >
                   {toDoList.map(item => (
                     <option key={ item }>{toDoList.indexOf(item) + 1}</option>
                   ))}
-                  <option>{toDoList.length + 1}</option>
+                  <option>{1}</option>
                 </select>
                 <p> Set it's priority on the list. </p>
               </div>
@@ -261,20 +260,6 @@ export default class App extends React.Component {
             Clear List
           </button>
         </div>
-        <div />
-        <div className='Features'>
-          <h3>Feautures</h3>
-          <ul className='Unordered'>
-            <li>
-              You have to hit the edit button twice just for the first time lol
-            </li>
-            <li>By hitting the enter key you submit the form</li>
-            <li>You cannot add the same item twice</li>
-            <li>The priority index expands in a list format</li>
-            <li>Built using css grid</li>
-          </ul>
-        </div>
-      </div>
     );
   }
 }
