@@ -22,7 +22,7 @@ export default class UpdateItem extends React.Component {
 
     if (priority !== toDoList.indexOf(Item)) {
       list.splice(toDoList.indexOf(Item), 1);
-      list.splice(priority, 0, newItem2);
+      list.splice(priority - 1, 0, newItem2);
     }else{
       list.splice(toDoList.indexOf(Item), 1, newItem2);
     }
