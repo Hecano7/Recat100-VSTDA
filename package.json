@@ -2,7 +2,7 @@
   "name": "vstda",
   "version": "0.1.0",
   "description": "REACT100 Assignment - VSTDA",
-  "main": "server/index.js",
+  "main": "server/server.js",
   "scripts": {
     "build": "npm run less && webpack",
     "start": "node server/server.js",

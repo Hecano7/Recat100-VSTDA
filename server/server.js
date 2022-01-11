@@ -14,12 +14,8 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.set('views' , './views');
-
-// app.set('view engine' , 'ejs');
-
 app.get('/', (req, res) => {
-  res.sendFile('index.html', { root: __dirname });
+  res.sendFile('public/index.html', { root: __dirname });
 });
 
 
