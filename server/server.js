@@ -1,12 +1,15 @@
 const express = require('express');
-const morgan = require('morgan');
 
 const app = express();
 
-app.use(morgan('dev'));
-app.use(express.static('dist'));
-app.use(express.static('public'));
+const path = require('path');
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('build'));
+  app.get('*', (req, res) => {
+    req.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+  });
+}
 
 app.get('/', (req, res) => {
   res.sendFile('index.html', { root: __dirname });
