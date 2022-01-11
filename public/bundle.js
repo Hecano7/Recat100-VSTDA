@@ -22787,6 +22787,10 @@ class UpdateItem extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component
     this.updatePriority2 = this.updatePriority2.bind(this);
   }
 
+  componentDidMount() {
+    this.setState({ priority: this.props.toDoList.indexOf(this.props.Item) });
+  }
+
   updateList(event) {
     event.preventDefault();
     const list = [...this.props.toDoList];
@@ -22795,9 +22799,11 @@ class UpdateItem extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component
     const { changeList, toDoList, Item } = this.props;
 
     if (priority !== toDoList.indexOf(Item)) {
+      console.log("first", priority, toDoList.indexOf(Item));
       list.splice(toDoList.indexOf(Item), 1);
       list.splice(priority - 1, 0, newItem2);
     } else {
+      console.log("second", this.state.priority);
       list.splice(toDoList.indexOf(Item), 1, newItem2);
     }
 

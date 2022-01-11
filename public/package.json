@@ -5,7 +5,6 @@
   "main": "server/server.js",
   "proxy": "http://localhost:5000/",
   "scripts": {
-    "heroku-postbuild": "cd client && npm install --only=dev --no-shrinkwrap && npm run build",
     "build": "npm run less && webpack",
     "start": "node server/server.js",
     "less": "lessc public/src/css/style.less public/css/style.css",

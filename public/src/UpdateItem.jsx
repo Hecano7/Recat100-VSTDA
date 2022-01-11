@@ -13,6 +13,10 @@ export default class UpdateItem extends React.Component {
     this.updatePriority2 = this.updatePriority2.bind(this);
   }
 
+  componentDidMount() {
+    this.setState({ priority: this.props.toDoList.indexOf(this.props.Item)});
+  };
+  
   updateList(event) {
     event.preventDefault();
     const list = [...this.props.toDoList];
