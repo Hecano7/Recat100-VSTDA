@@ -4,6 +4,7 @@
   "description": "REACT100 Assignment - VSTDA",
   "main": "server/server.js",
   "scripts": {
+    "heroku-postbuild": "cd client && npm install --only=dev --noshrinkwrap && npm run build",
     "build": "npm run less && webpack",
     "start": "node server/server.js",
     "less": "lessc public/src/css/style.less public/css/style.css",
